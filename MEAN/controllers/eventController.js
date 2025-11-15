@@ -1,4 +1,4 @@
-const EventModel = require("../models/Event");
+const EventModel = require("../models/event");
 
 exports.listEvents = (req, res) => {
     let events = EventModel.getAllEvents();
