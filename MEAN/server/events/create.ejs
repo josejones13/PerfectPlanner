@@ -1,0 +1,51 @@
+<%- include('./partials/header.ejs') %>
+<%- include('./partials/main_nav.ejs') %>
+<!--Content for adding the book-->
+<div class="container">
+    <div class="row">
+        <h1><%= title %></h1>
+        <form class="form" method="post">
+            <div class="form-group">
+                <label for="eventName">Event Name</label>
+                <input type="text" class="form-control"
+                id="eventName"
+                placeholder="Enter the event name"
+                name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="eventType">Event Type</label>
+                <input type="text" class="form-control"
+                id="eventType"
+                placeholder="Enter the event type"
+                name="type" required>
+            </div>
+            <div class="form-group">
+                <label for="eventDate">Event Date</label>
+                <input type="date" class="form-control"
+                id="eventDate"
+                name="date" required>
+            </div>
+            <div class="form-group">
+                <label for="eventTime">Event Time</label>
+                <input type="time" class="form-control"
+                id="eventTime"
+                name="time" required>
+            </div>
+            <div class="form-group">
+                <label for="eventLocation">Event Location</label>
+                <input type="text" class="form-control"
+                id="eventLocation"
+                placeholder="Enter the event location"
+                name="location" required>
+            </div>
+            <br>
+            <button class="btn btn-primary" type="submit">
+                <i class="fas fa-edit"></i> Submit
+            </button>
+            <a href="/list" class="btn btn-warning">
+                <i class="fas fa-undo"></i>Cancel
+            </a>
+        </form>
+    </div>
+</div>
+<%- include('./partials/footer.ejs') %>
