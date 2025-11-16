@@ -51,5 +51,3 @@ exports.deleteEvent = (req, res) => {
     EventModel.deleteEvent(req.params.id);
     res.redirect("/events/list");
 };
-
-
