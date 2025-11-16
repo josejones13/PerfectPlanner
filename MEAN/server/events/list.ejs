@@ -1,5 +1,5 @@
-<%- include('./partials/header.ejs') %>
-<%- include('./partials/main_nav.ejs') %>
+<%- include('../partials/header.ejs') %>
+<%- include('../partials/nav.ejs') %>
 
 <div class="container mt-4">
     <!-- Page Title + Create Button -->
@@ -9,10 +9,11 @@
             <i class="fas fa-plus-circle"></i> Add Event
         </a>
     </div>
+
     <!-- Search Bar + Sort Options -->
     <div class="mb-3 d-flex justify-content-between">
         <form class="d-flex" method="GET" action="/events/list">
-            <input type="text" name="search" placeholder="Search events..." class="form-control me-2">
+            <input type="text" name="search" placeholder="Search events..." class="form-control me-2" >
             <button class="btn btn-primary">Search</button>
         </form>
 
@@ -22,15 +23,17 @@
             <a href="/events/list?sort=type" class="btn btn-outline-secondary btn-sm">Sort by Type</a>
         </div>
     </div>
+
     <!-- When no events exist -->
-    <% if (EventList.length === 0) { %>
+    <% if (events.length === 0) { %>
         <div class="alert alert-info text-center">
             No events found. Click <strong>Add Event</strong> to create your first one!
         </div>
     <% } %>
+
     <!-- Event Cards -->
     <div class="row">
-        <% EventList.forEach(event => { %>
+        <% events.forEach(event => { %>
             <div class="col-md-4 mb-4">
                 <div class="card shadow-sm border-0" style="border-radius: 12px;">
                     <div class="card-body">
@@ -44,8 +47,7 @@
                             <% if (event.type === 'Meeting') { %> bg-info <% } %>
                             <% if (event.type === 'Holiday') { %> bg-success <% } %>
                             <% if (event.type === 'School') { %> bg-primary <% } %>
-                        ">
-                            <%= event.type %>
+                        "><%= event.type %>
                         </span>
 
                         <hr>
@@ -71,12 +73,17 @@
 
                         <!-- Edit + Delete Buttons -->
                         <div class="d-flex justify-content-between mt-3">
-                            <a href="/events/edit/<%= event.id %>" class="btn btn-primary btn-sm">
+                            <!-- Edit button -->
+                            <a href="/events/edit/<%= event._id%>" class="btn btn-primary btn-sm">
                                 <i class="fas fa-pencil-alt"></i> Edit
                             </a>
-                            <a href="/events/delete/<%= event.id %>" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash-alt"></i> Delete
-                            </a>
+
+                            <!-- Delete button (POST form) -->
+                            <form action="/events/delete/<%= event._id%>" method="POST">
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </button>
+                            </form>
                         </div>
 
                     </div>
@@ -84,6 +91,6 @@
             </div>
         <% }) %>
     </div>
-
 </div>
-<%- include('./partials/footer.ejs') %>
+
+<%- include('../partials/footer.ejs') %>
