@@ -1,4 +1,4 @@
-let events = [];
+let  events = [];
 let nextId = 1;
 
 class Event {
