@@ -1,9 +1,11 @@
-let  events = [];
+// models/Event.js
+let events = [];
 let nextId = 1;
+
 
 class Event {
     constructor(name, type, date, time, location) {
-        this.id = nextId++;
+        this._id = nextId++; // use string
         this.name = name;
         this.type = type;
         this.date = date;
@@ -12,14 +14,20 @@ class Event {
     }
 }
 
+
+// Get all events
 function getAllEvents() {
     return events;
 }
 
+
+// Get a single event by _id
 function getEventById(id) {
-    return events.find(e => e.id === parseInt(id));
+    return events.find(e => e._id == id);
 }
 
+
+// Add a new event
 function addEvent(eventData) {
     const newEvent = new Event(
         eventData.name,
@@ -31,6 +39,8 @@ function addEvent(eventData) {
     events.push(newEvent);
 }
 
+
+// Update an existing event
 function updateEvent(id, updatedData) {
     const event = getEventById(id);
     if (event) {
@@ -42,14 +52,11 @@ function updateEvent(id, updatedData) {
     }
 }
 
+
+// Delete an event
 function deleteEvent(id) {
-    events = events.filter(e => e.id !== parseInt(id));
+    events = events.filter(e => e._id != id);
 }
 
-module.exports = {
-    getAllEvents,
-    getEventById,
-    addEvent,
-    updateEvent,
-    deleteEvent
-};
+
+module.exports = { getAllEvents, getEventById, addEvent, updateEvent, deleteEvent };

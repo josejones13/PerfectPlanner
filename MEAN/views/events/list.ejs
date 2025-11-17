@@ -1,6 +1,7 @@
 <%- include('../partials/header.ejs') %>
 <%- include('../partials/nav.ejs') %>
 
+
 <div class="container mt-4">
     <!-- Page Title + Create Button -->
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -10,12 +11,14 @@
         </a>
     </div>
 
+
     <!-- Search Bar + Sort Options -->
     <div class="mb-3 d-flex justify-content-between">
         <form class="d-flex" method="GET" action="/events/list">
             <input type="text" name="search" placeholder="Search events..." class="form-control me-2" >
             <button class="btn btn-primary">Search</button>
         </form>
+
 
         <div>
             <a href="/events/list?sort=name" class="btn btn-outline-secondary btn-sm">Sort by Name</a>
@@ -24,12 +27,14 @@
         </div>
     </div>
 
+
     <!-- When no events exist -->
     <% if (events.length === 0) { %>
         <div class="alert alert-info text-center">
             No events found. Click <strong>Add Event</strong> to create your first one!
         </div>
     <% } %>
+
 
     <!-- Event Cards -->
     <div class="row">
@@ -38,11 +43,13 @@
                 <div class="card shadow-sm border-0" style="border-radius: 12px;">
                     <div class="card-body">
 
+
                         <!-- Event Name -->
                         <h4><%= event.name %></h4>
 
+
                         <!-- Event Type Badge -->
-                        <span class="badge 
+                        <span class="badge
                             <% if (event.type === 'Birthday') { %> bg-pink <% } %>
                             <% if (event.type === 'Meeting') { %> bg-info <% } %>
                             <% if (event.type === 'Holiday') { %> bg-success <% } %>
@@ -50,26 +57,31 @@
                         "><%= event.type %>
                         </span>
 
+
                         <hr>
+
 
                         <!-- Date -->
                         <p><i class="far fa-calendar-alt"></i>
                             <strong>
-                                <%= new Date(event.date).toLocaleDateString('en-US', { 
-                                    month:'short', day:'numeric', year:'numeric' 
+                                <%= new Date(event.date).toLocaleDateString('en-US', {
+                                    month:'short', day:'numeric', year:'numeric'
                                 }) %>
                             </strong>
                         </p>
+
 
                         <!-- Time -->
                         <p><i class="far fa-clock"></i>
                             <%= event.time %>
                         </p>
 
+
                         <!-- Location -->
                         <p><i class="fas fa-map-marker-alt"></i>
                             <%= event.location %>
                         </p>
+
 
                         <!-- Edit + Delete Buttons -->
                         <div class="d-flex justify-content-between mt-3">
@@ -77,6 +89,7 @@
                             <a href="/events/edit/<%= event._id%>" class="btn btn-primary btn-sm">
                                 <i class="fas fa-pencil-alt"></i> Edit
                             </a>
+
 
                             <!-- Delete button (POST form) -->
                             <form action="/events/delete/<%= event._id%>" method="POST">
@@ -86,11 +99,13 @@
                             </form>
                         </div>
 
+
                     </div>
                 </div>
             </div>
         <% }) %>
     </div>
 </div>
+
 
 <%- include('../partials/footer.ejs') %>
