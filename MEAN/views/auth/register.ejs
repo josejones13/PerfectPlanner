@@ -1,42 +1,42 @@
 <%- include('../partials/header.ejs') %>
-<%- include('../partials/navbar.ejs') %>
+<%- include('../partials/nav.ejs') %>
 
-<div class="container">
-  <h1>Register</h1>
+<div class="container mt-5" style="max-width: 500px;">
+    <h2 class="mb-4 text-center">Register</h2>
 
-    <% if (message.length > 0) { %>
-        <div class="alert alert-danger"><%= message %></div>
+    <% if (error) { %>
+        <div class="alert alert-danger"><%= error %></div>
     <% } %>
-    <form action="/register" method="POST">
-        <fieldset class="form-group">
-            <label for="fullname">Full Name:</label>
-            <input type="text" name="fullname" id="fullname" class="form-control" required>
+
+    <form method="POST" action="/register" autocomplete="off">
+        <fieldset class="form-group mb-3">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" class="form-control"
+                   placeholder="Choose your username" required autofocus>
         </fieldset>
 
-        <fieldset class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" name="email" id="email" class="form-control" required>
-        </fieldset>
-
-        <fieldset class="form-group">
+        <fieldset class="form-group mb-3">
             <label for="password">Password:</label>
-            <input type="password" name="password" id="password" class="form-control" required>
+            <input type="password" name="password" id="password" class="form-control"
+                   placeholder="Create password" required>
         </fieldset>
 
-        <fieldset class="form-group">
+
+        <fieldset class="form-group mb-3">
             <label for="confirmPassword">Confirm Password:</label>
-            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" required>
+            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
+                   placeholder="Re-enter password" required>
         </fieldset>
 
-        <fieldset>
-            <input type="submit" class="btn btn-success" value="Login">
-            <a href="/"></a>
-            <input type="button" class="btn btn-warning" value="Cancel">
-            <a href="/"></a>
-        </fieldset>
+        <div class="d-flex justify-content-between mt-3">
+            <button type="submit" class="btn btn-success">Register</button>
+            <a href="/" class="btn btn-warning">Cancel</a>
+        </div>
     </form>
 
-  <p>Already have an account? <a href="/login">Login here</a></p>
+    <p class="mt-3 text-center">
+        Already have an account? <a href="/login">Login here</a>
+    </p>
 </div>
 
 <%- include('../partials/footer.ejs') %>

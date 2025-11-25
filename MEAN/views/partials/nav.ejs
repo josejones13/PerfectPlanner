@@ -15,6 +15,7 @@
         <!-- Collapsible navigation -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                
                 <!-- Home -->
                 <li class="nav-item">
                     <% if (title=="Home") { %>
@@ -43,22 +44,26 @@
                 </li>
 
                 <!-- AUTHENTICATION LINKS (LOGIN / REGISTER / LOGOUT) -->
-                <% if (user) { %>
-                    <!-- User is logged in -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-                    </li>
-                <% } else { %>
-                    <!-- User is NOT logged in -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register"><i class="fa-solid fa-user-plus"></i> Register</a>
-                    </li>
-                <% } %>
+<% if (!isAuthenticated) { %>
+    <!-- User is NOT logged in -->
+    <li class="nav-item">
+        <a class="nav-link" href="/login"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/register"><i class="fa-solid fa-user-plus"></i> Register</a>
+    </li>
+<% } else { %>
+    <!-- User IS logged in -->
+    <li class="nav-item">
+        <form action="/logout" method="POST">
+            <button class="btn nav-link" style="color:white">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+        </form>
+    </li>
+<% } %>
             </ul>
         </div>
     </div>
 </nav>
+

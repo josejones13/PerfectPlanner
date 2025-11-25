@@ -1,69 +1,83 @@
-require("dotenv").config();
-console.log("SESSION_SECRET ->", process.env.SESSION_SECRET);
-
 const express = require("express");
-const app = express();
 const path = require("path");
+const createError = require("http-errors");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const User = require("./models/user");
+const flash = require("connect-flash");
+require("dotenv").config();
 
--
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
+const app = express();
 
+// ==== DATABASE CONNECTION ====
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("Connected to MongoDB Atlas"))
+  .catch((err) => console.error("MongoDB Error:", err));
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "public"))); // public folder for validation.js
+// ==== VIEW ENGINE SETUP ====
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 
+// ==== MIDDLEWARE ====
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
-}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "change-secret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
+app.use(flash());
 
+// Passport Setup
+require("./config/passport")(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-passport.use(new LocalStrategy(async (username, password, done) => {
-  try {
-    const user = await User.findOne({ username });
-    if (!user) return done(null, false, { message: "User not found" });
-
-    const match = await user.isValidPassword(password);
-    if (!match) return done(null, false, { message: "Incorrect password" });
-
-    return done(null, user);
-  } catch (err) {
-    return done(err);
-  }
-}));
-
-passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser(async (id, done) => {
-  const user = await User.findById(id);
-  done(null, user);
+// Make logged-in user available to all views
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.isAuthenticated();
+  res.locals.currentUser = req.user;
+  next();
 });
 
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+
+const { ensureAuthenticated } = require("./middleware/authMiddleware");
 
 
-app.use("/", require("./routes/auth"));
-app.use("/update", require("./routes/update"));
-app.use("/delete", require("./routes/delete"));
+app.get("/", ensureAuthenticated, (req, res) => {
+  res.render("index", { title: "Home" });
+});
 
 
+// ==== ROUTES ====
+const eventRoutes = require("./routes/events");
+const authRoutes = require("./routes/auth");
+
+app.use("/events", eventRoutes);
+app.use("/", authRoutes);
+
+// ==== 404 HANDLER ====
+app.use((req, res, next) => {
+  next(createError(404));
+});
+
+// ==== ERROR PAGE ====
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).render("error", {
+    title: "Error",
+    message: err.message,
+    error: err
+  });
+});
+
+// ==== START SERVER ====
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
-
+app.listen(PORT, () =>
+  console.log(`Server running on http://localhost:${PORT}`)
+);
