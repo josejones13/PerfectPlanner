@@ -1,0 +1,32 @@
+<%- include('../partials/header.ejs') %>
+<%- include('../partials/nav.ejs') %>
+
+<div class="container mt-5" style="max-width: 500px;">
+    <h2 class="text-center mb-4">Forgot Password</h2>
+
+    <% if (success) { %>
+        <div class="alert alert-success"><%= success %></div>
+    <% } %>
+
+    <% if (error) { %>
+        <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+
+    <form action="/auth/forgot" method="POST">
+        <fieldset class="form-group mb-3">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" class="form-control"
+                   placeholder="Enter your account email" required>
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary w-100">Send Reset Link</button>
+    </form>
+
+    <p class="mt-3 text-center">
+        <a href="/auth/login">Back to Login</a>
+    </p>
+</div>
+
+<%- include('../partials/footer.ejs') %>
+
+

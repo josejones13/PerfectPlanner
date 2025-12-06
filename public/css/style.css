@@ -1,0 +1,7 @@
+body {
+    padding-bottom: 80px; /* Prevent footer from covering content */
+}
+
+footer {
+    height: 80px; /* Must match padding-bottom */
+}

@@ -1,0 +1,29 @@
+<%- include('../partials/header') %>
+<%- include('../partials/nav') %>
+
+<div class="container mt-5" style="max-width:600px;">
+
+    <h2 class="mb-4 text-center">My Profile</h2>
+
+    <div class="text-center mb-3">
+        <img src="<%= currentUser.profilePicture %>" 
+             alt="Profile Picture" 
+             class="rounded-circle" width="150" height="150"
+             style="object-fit:cover; border:3px solid #007bff;">
+    </div>
+
+    <h4 class="text-center mb-4"><%= currentUser.username %></h4>
+
+    <form action="/profile/upload" method="POST" enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Change Profile Picture</label>
+            <input type="file" name="picture" class="form-control" accept="image/*" required>
+        </div>
+
+        <button class="btn btn-primary w-100 mt-2">Upload</button>
+    </form>
+
+</div>
+
+<%- include('../partials/footer') %>
