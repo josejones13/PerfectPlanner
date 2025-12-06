@@ -4,7 +4,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GitHubStrategy = require("passport-github").Strategy;
 const DiscordStrategy = require("passport-discord").Strategy;
 
-const User = require("../models/ user");
+const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 
 module.exports = function (passport) {
